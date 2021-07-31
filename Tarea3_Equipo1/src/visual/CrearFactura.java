@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.DateFormatter;
 
 import logico.Cliente;
 import logico.Almacen;
@@ -20,7 +21,12 @@ import javax.swing.border.BevelBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -304,6 +310,34 @@ public class CrearFactura extends JDialog {
 										queso.setVendido(true);
 									}
 									Almacen.getInstance().agregarFactura(factura);
+									Date date = new Date();
+									File archivo = new File ("Facturas/Factura-"+new SimpleDateFormat("dd-MM-yyyy").format(date));
+									FileWriter escritor;
+										
+									try {
+									escritor = new FileWriter(archivo);
+									String info = "";
+												info = "Almcaen de Quesos LA HABANA             " + factura.getId()+ " | " +new SimpleDateFormat("dd-MM-yyyy").format(date)+ "\n"
+												+ ".....................................................................\n"
+											    + "Cliente:\n\n"
+											    + "Nombre: " + factura.getMiCliente().getNombre() + "\n"
+											    + "Cedula: " + factura.getMiCliente().getCedula() + "\n"
+											    + "Telefono: " + factura.getMiCliente().getTelefono() + "\n"
+												+ "Dirección: " + factura.getMiCliente().getDireccion() + "\n\n"
+												+ "Productos:\n\n"
+												+ "No supe como"
+												+ "\n.....................................................................\n"
+												+ "Precio Total: " + factura.precioFactura();
+												
+												System.out.println(info);
+											 
+									// Escribe el archivo con la informacion
+							        for (int i=0; i<info.length(); i++)
+							            escritor.write(info.charAt(i));
+							            escritor.close();
+									} catch (IOException Ioe) {
+										// TODO Auto-generated catch block											e.printStackTrace();
+									}
 									JOptionPane.showMessageDialog(null, "¡Su pedido ha sido realizado satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
 									cleanCliente();
 									listQuesosComprados.clear();
