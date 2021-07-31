@@ -21,9 +21,12 @@ import javax.swing.border.BevelBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,6 +79,9 @@ public class CrearFactura extends JDialog {
 	 * Create the dialog.
 	 */
 	public CrearFactura() {
+		
+		Esfera queso = new Esfera("0005","Gouda",5,10,2);
+		Almacen.getInstance().agregarQueso(queso);
 		setTitle("Punto de Venta - Complejo L\u00E1cteo La Habana");
 		setBounds(100, 100, 500, 615);
 		setLocationRelativeTo(null);
@@ -313,24 +319,20 @@ public class CrearFactura extends JDialog {
 									Date date = new Date();
 									File archivo = new File ("Facturas/Factura-"+new SimpleDateFormat("dd-MM-yyyy").format(date));
 									FileWriter escritor;
-										
+									String info = "";
+									info = "Almacen de Quesos LA HABANA             " + factura.getId()+ " | " +new SimpleDateFormat("dd-MM-yyyy").format(date)+ "\n"
+											+ ".....................................................................\n"
+										    + "Cliente:\n\n"
+										    + "Nombre: " + factura.getMiCliente().getNombre() + "\n"
+										    + "Cedula: " + factura.getMiCliente().getCedula() + "\n"
+										    + "Telefono: " + factura.getMiCliente().getTelefono() + "\n"
+											+ "Dirección: " + factura.getMiCliente().getDireccion() + "\n\n"
+											+ "Productos:\n\n"
+											+ "No supe como"
+											+ "\n.....................................................................\n"
+											+ "Precio Total: " + factura.precioFactura();
 									try {
 									escritor = new FileWriter(archivo);
-									String info = "";
-												info = "Almcaen de Quesos LA HABANA             " + factura.getId()+ " | " +new SimpleDateFormat("dd-MM-yyyy").format(date)+ "\n"
-												+ ".....................................................................\n"
-											    + "Cliente:\n\n"
-											    + "Nombre: " + factura.getMiCliente().getNombre() + "\n"
-											    + "Cedula: " + factura.getMiCliente().getCedula() + "\n"
-											    + "Telefono: " + factura.getMiCliente().getTelefono() + "\n"
-												+ "Dirección: " + factura.getMiCliente().getDireccion() + "\n\n"
-												+ "Productos:\n\n"
-												+ "No supe como"
-												+ "\n.....................................................................\n"
-												+ "Precio Total: " + factura.precioFactura();
-												
-												System.out.println(info);
-											 
 									// Escribe el archivo con la informacion
 							        for (int i=0; i<info.length(); i++)
 							            escritor.write(info.charAt(i));
@@ -338,9 +340,27 @@ public class CrearFactura extends JDialog {
 									} catch (IOException Ioe) {
 										// TODO Auto-generated catch block											e.printStackTrace();
 									}
+								
+									try {
+										Socket socket = new Socket("127.0.0.1",9000);
+										DataOutputStream envio = new DataOutputStream(socket.getOutputStream());
+										envio.writeUTF(info);
+										envio.flush();
+										socket.close();
+										
+									} catch (UnknownHostException e1) {
+										System.out.println("No se encontró la IP proporcionada ");
+										e1.printStackTrace();
+									} catch (IOException ioe) {
+										System.out.println("Conexión rechazada "+ioe);
+										System.exit(1);
+									}
+									
+									
 									JOptionPane.showMessageDialog(null, "¡Su pedido ha sido realizado satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
 									cleanCliente();
 									listQuesosComprados.clear();
+									
 								}else {
 									JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un (1) queso a comprar.", "Información", JOptionPane.WARNING_MESSAGE);
 								}		
