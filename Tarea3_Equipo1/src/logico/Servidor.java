@@ -14,11 +14,8 @@ public class Servidor extends Thread{
 	public static ServerSocket server;
 	public static Socket socket;
 	public static int puerto = 9000;
-	public static ObjectInputStream salida;
-	public static BufferedReader entrada;
-	  public static Vector facturas = new Vector();
+	public static Vector facturas = new Vector();
 
-	
 	public static void main (String args[])
 	  {
 		server = null;

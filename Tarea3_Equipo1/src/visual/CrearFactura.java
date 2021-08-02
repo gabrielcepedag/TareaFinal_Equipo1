@@ -84,9 +84,6 @@ public class CrearFactura extends JDialog {
 	 */
 	public CrearFactura() {
 		
-		/*Esfera queso = new Esfera("0005","Gouda",5,10,2);
-		Almacen.getInstance().agregarQueso(queso);*/
-		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				if(socket != null) {
@@ -383,21 +380,6 @@ public class CrearFactura extends JDialog {
 										// TODO Auto-generated catch block
 										System.out.println("Error: "+ioe);
 									}
-									
-									/*Socket socket = null;
-									try {
-										socket = new Socket("127.0.0.1",9000);
-										DataOutputStream envio = new DataOutputStream(socket.getOutputStream());
-										envio.writeUTF(info);
-										envio.flush();
-										
-									} catch (UnknownHostException e1) {
-										System.out.println("No se encontró la IP proporcionada ");
-										e1.printStackTrace();
-									} catch (IOException ioe) {
-										System.out.println("Conexión rechazada "+ioe);
-										System.exit(1);
-									}*/
 									
 									JOptionPane.showMessageDialog(null, "¡Su pedido ha sido realizado satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
 									cleanCliente();

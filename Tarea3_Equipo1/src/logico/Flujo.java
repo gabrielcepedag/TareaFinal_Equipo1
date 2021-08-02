@@ -32,23 +32,12 @@ public class Flujo extends Thread{
 
 				Date date = new Date();
 				FileOutputStream facturaRespaldo = new FileOutputStream("src/Respaldo/Factura-"+new SimpleDateFormat("dd-MM-yyyy").format(date));
-				//facturaRespaldo.createNewFile();
 				escritura = null;
 				
 				try{ 
 					byte[] strToBytes = factura.getBytes();
 				    facturaRespaldo.write(strToBytes);
 				    facturaRespaldo.close();
-				    /*
-				    escritura = new FileWriter(facturaRespaldo);
-				    escritura.write(factura);
-				   
-				    for (int i = 0; i < factura.length(); i++) {
-				    	escritura.write(factura.charAt(i));
-			            escritura.close();
-				    }
-				    escritura.close();
-				    */
 				  
 				}catch ( IOException e){
 					System.out.println("....");
