@@ -248,6 +248,7 @@ public class CrearFactura extends JDialog {
 						btnDerecha.setEnabled(false);
 						listQuesosComprados.add(Almacen.getInstance().buscarQuesoById(aux.substring(0, aux.indexOf('|')-1)));
 						
+						System.out.println("PRECIO QUESO: "+Almacen.getInstance().buscarQuesoById(aux.substring(0, aux.indexOf('|')-1)).precioTotal());
 						txtTotal.setText("RD$ "+calcTotal());					
 					}else {
 							JOptionPane.showMessageDialog(null, "Debe especificar su cédula para realizar el pedido.", "Información", JOptionPane.WARNING_MESSAGE);
@@ -325,12 +326,15 @@ public class CrearFactura extends JDialog {
 										    + "Cliente:\n\n"
 										    + "Nombre: " + factura.getMiCliente().getNombre() + "\n"
 										    + "Cedula: " + factura.getMiCliente().getCedula() + "\n"
-										    + "Telefono: " + factura.getMiCliente().getTelefono() + "\n"
-											+ "Dirección: " + factura.getMiCliente().getDireccion() + "\n\n"
-											+ "Productos:\n\n"
-											+ "No supe como"
-											+ "\n.....................................................................\n"
-											+ "Precio Total: " + factura.precioFactura();
+										    + "Telefono: " + factura.getMiCliente().getDireccion() + "\n"
+											+ "Dirección: " + factura.getMiCliente().getTelefono() + "\n\n"
+											+ "Productos:\n";
+									for (int i = 0; i < listQuesosComprados.size(); i++) {
+										info = info + listQuesosComprados.get(i).getId()+" | "+listQuesosComprados.get(i).getNombre()+"\n";
+									}
+									info = info + "\n.....................................................................\n"
+											+ "Precio Total: " + factura.precioFactura() +"\n";
+									
 									try {
 									escritor = new FileWriter(archivo);
 									// Escribe el archivo con la informacion
@@ -338,9 +342,9 @@ public class CrearFactura extends JDialog {
 							            escritor.write(info.charAt(i));
 							            escritor.close();
 									} catch (IOException Ioe) {
-										// TODO Auto-generated catch block											e.printStackTrace();
+										Ioe.printStackTrace();
 									}
-								
+									
 									try {
 										Socket socket = new Socket("127.0.0.1",9000);
 										DataOutputStream envio = new DataOutputStream(socket.getOutputStream());
@@ -355,7 +359,6 @@ public class CrearFactura extends JDialog {
 										System.out.println("Conexión rechazada "+ioe);
 										System.exit(1);
 									}
-									
 									
 									JOptionPane.showMessageDialog(null, "¡Su pedido ha sido realizado satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
 									cleanCliente();

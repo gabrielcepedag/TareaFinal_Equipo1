@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Vector;
 
 public class Servidor extends Thread{
 	
@@ -15,6 +16,8 @@ public class Servidor extends Thread{
 	public static int puerto = 9000;
 	public static ObjectInputStream salida;
 	public static BufferedReader entrada;
+	  public static Vector facturas = new Vector();
+
 	
 	public static void main (String args[])
 	  {
