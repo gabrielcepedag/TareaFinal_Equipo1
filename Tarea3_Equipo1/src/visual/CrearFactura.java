@@ -1,15 +1,14 @@
 package visual;
 
 import java.awt.BorderLayout;
+
 import java.awt.FlowLayout;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.DateFormatter;
 
 import logico.Cliente;
 import logico.Almacen;
@@ -41,6 +40,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
+@SuppressWarnings("serial")
 public class CrearFactura extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -318,7 +318,7 @@ public class CrearFactura extends JDialog {
 									}
 									Almacen.getInstance().agregarFactura(factura);
 									Date date = new Date();
-									File archivo = new File ("Facturas/Factura-"+new SimpleDateFormat("dd-MM-yyyy").format(date));
+									File archivo = new File ("src/Facturas/Factura-"+new SimpleDateFormat("dd-MM-yyyy").format(date));
 									FileWriter escritor;
 									String info = "";
 									info = "Almacen de Quesos LA HABANA             " + factura.getId()+ " | " +new SimpleDateFormat("dd-MM-yyyy").format(date)+ "\n"
