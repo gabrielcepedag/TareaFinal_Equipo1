@@ -9,6 +9,7 @@ public class Almacen implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private int staticCod = 1;
 	private ArrayList<Queso> misQuesos;
 	private ArrayList<Cliente> misClientes;
 	private ArrayList<Factura> misFacturas;
@@ -26,6 +27,14 @@ public class Almacen implements Serializable{
 			almacen = new Almacen();
 		}
 		return almacen;
+	}
+	
+	public int getStaticCod() {
+		return staticCod;
+	}
+
+	public void actualizarStaticCod() {
+		staticCod = Factura.numFactura;
 	}
 	
 	public ArrayList<Queso> getMisQuesos() {

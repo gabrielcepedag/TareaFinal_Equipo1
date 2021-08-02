@@ -27,6 +27,7 @@ public class Flujo extends Thread{
 			try {
 				String factura = lectura.readUTF();
 				System.out.println(factura);
+				//Aqui se debe guardar ese String como txt en carpeta respaldo.
 				
 			} catch (Exception ioe) {
 				System.out.println(nsfd.getInetAddress() + " se ha desconectado.");

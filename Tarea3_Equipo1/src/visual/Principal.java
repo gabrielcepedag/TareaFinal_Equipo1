@@ -10,6 +10,7 @@ import javax.swing.border.TitledBorder;
 
 import logico.Almacen;
 import logico.Factura;
+import logico.Queso;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -53,6 +54,7 @@ public class Principal extends JFrame {
 					almacen = new FileInputStream ("almacen.dat");
 					almacenRead = new ObjectInputStream(almacen);
 					Almacen temp = (Almacen)almacenRead.readObject();
+					Factura.numFactura = temp.getStaticCod();
 					Almacen.setControl(temp);
 					almacen.close();
 					almacenRead.close();
@@ -94,6 +96,7 @@ public class Principal extends JFrame {
 				try {
 					almacen2 = new  FileOutputStream("almacen.dat");
 					almacenWrite = new ObjectOutputStream(almacen2);
+					Almacen.getInstance().actualizarStaticCod();
 					almacenWrite.writeObject(Almacen.getInstance());
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
