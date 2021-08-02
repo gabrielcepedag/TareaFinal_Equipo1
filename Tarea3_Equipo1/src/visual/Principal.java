@@ -10,6 +10,7 @@ import javax.swing.border.TitledBorder;
 
 import logico.Almacen;
 import logico.Factura;
+import logico.Queso;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -47,6 +48,7 @@ public class Principal extends JFrame {
 					almacenRead = new ObjectInputStream(almacen);
 					Almacen temp = (Almacen)almacenRead.readObject();
 					Factura.numFactura = temp.getStaticCod();
+					Queso.numQueso = temp.getStaticQuesos();
 					Almacen.setControl(temp);
 					almacen.close();
 					almacenRead.close();

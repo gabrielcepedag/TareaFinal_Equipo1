@@ -86,6 +86,19 @@ public class CrearFactura extends JDialog {
 		/*Esfera queso = new Esfera("0005","Gouda",5,10,2);
 		Almacen.getInstance().agregarQueso(queso);*/
 		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				if(socket != null) {
+					try {
+						socket.close();
+					} catch (IOException ioe) {
+						System.out.println("Error: "+ioe);
+					}
+				}
+				dispose();
+			}
+		});
+		
 		//Abrir conexión con el servidor.
 		try {
 			socket = new Socket("127.0.0.1",9000);
