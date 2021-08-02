@@ -13,8 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
-
 import logico.Almacen;
 import logico.Cilindrico;
 import logico.CilindricoHueco;

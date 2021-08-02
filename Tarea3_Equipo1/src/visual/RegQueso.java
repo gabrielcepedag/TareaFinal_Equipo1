@@ -6,19 +6,16 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import logico.CilindricoHueco;
 import logico.Almacen;
 import logico.Queso;
-import logico.CilindricoHueco;
 import logico.Cilindrico;
 import logico.Esfera;
 
 import javax.swing.border.BevelBorder;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,6 +26,7 @@ import javax.swing.JSeparator;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
+@SuppressWarnings("serial")
 public class RegQueso extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();

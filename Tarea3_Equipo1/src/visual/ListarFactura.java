@@ -15,7 +15,6 @@ import logico.Factura;
 
 import javax.swing.UIManager;
 import java.awt.Color;
-import java.awt.Dialog;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;

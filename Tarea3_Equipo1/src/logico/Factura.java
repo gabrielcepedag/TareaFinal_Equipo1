@@ -3,8 +3,6 @@ package logico;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.swing.plaf.InputMapUIResource;
-
 public class Factura implements Serializable{
 	/**
 	 * 

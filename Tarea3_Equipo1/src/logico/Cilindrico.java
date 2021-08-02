@@ -2,6 +2,7 @@ package logico;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Cilindrico extends Queso implements Serializable{
 	protected int radioCilindrico;
 	protected int longitud;
