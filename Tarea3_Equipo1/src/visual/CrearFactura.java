@@ -344,13 +344,12 @@ public class CrearFactura extends JDialog {
 									} catch (IOException Ioe) {
 										Ioe.printStackTrace();
 									}
-									
+									Socket socket = null;
 									try {
-										Socket socket = new Socket("127.0.0.1",9000);
+										socket = new Socket("127.0.0.1",9000);
 										DataOutputStream envio = new DataOutputStream(socket.getOutputStream());
 										envio.writeUTF(info);
 										envio.flush();
-										socket.close();
 										
 									} catch (UnknownHostException e1) {
 										System.out.println("No se encontró la IP proporcionada ");
@@ -363,6 +362,14 @@ public class CrearFactura extends JDialog {
 									JOptionPane.showMessageDialog(null, "¡Su pedido ha sido realizado satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
 									cleanCliente();
 									listQuesosComprados.clear();
+									if(socket != null) {
+										try {
+											socket.close();
+										} catch (IOException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+									}
 									
 								}else {
 									JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un (1) queso a comprar.", "Información", JOptionPane.WARNING_MESSAGE);

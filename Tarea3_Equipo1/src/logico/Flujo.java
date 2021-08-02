@@ -51,6 +51,7 @@ public class Flujo extends Thread{
 				    */
 				  
 				}catch ( IOException e){
+					System.out.println("....");
 					e.printStackTrace();
 				}				
 			}catch(IOException ioe){
