@@ -14,12 +14,13 @@ import logico.Cliente;
 import logico.Almacen;
 import logico.Factura;
 import logico.Queso;
-import logico.Esfera;
 
 import javax.swing.border.BevelBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileWriter;
