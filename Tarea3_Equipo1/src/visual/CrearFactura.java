@@ -60,6 +60,8 @@ public class CrearFactura extends JDialog {
 	private JTextField txtTotal;
 	private Cliente auxCliente = null;
 	private Factura factura = null;
+	private Socket socket = null;
+	private DataOutputStream envio;
 	private ArrayList<Queso> listQuesosComprados = new ArrayList<Queso>();
 
 	/**
@@ -70,6 +72,7 @@ public class CrearFactura extends JDialog {
 			CrearFactura dialog = new CrearFactura();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -80,8 +83,22 @@ public class CrearFactura extends JDialog {
 	 */
 	public CrearFactura() {
 		
-		Esfera queso = new Esfera("0005","Gouda",5,10,2);
-		Almacen.getInstance().agregarQueso(queso);
+		/*Esfera queso = new Esfera("0005","Gouda",5,10,2);
+		Almacen.getInstance().agregarQueso(queso);*/
+		
+		//Abrir conexión con el servidor.
+		try {
+			socket = new Socket("127.0.0.1",9000);
+			envio = new DataOutputStream(socket.getOutputStream());
+			
+		} catch (UnknownHostException e1) {
+			System.out.println("No se encontró la IP proporcionada ");
+			e1.printStackTrace();
+		} catch (IOException ioe) {
+			System.out.println("Conexión rechazada "+ioe);
+			System.exit(1);
+		}
+		
 		setTitle("Punto de Venta - Complejo L\u00E1cteo La Habana");
 		setBounds(100, 100, 500, 615);
 		setLocationRelativeTo(null);
@@ -248,7 +265,7 @@ public class CrearFactura extends JDialog {
 						btnDerecha.setEnabled(false);
 						listQuesosComprados.add(Almacen.getInstance().buscarQuesoById(aux.substring(0, aux.indexOf('|')-1)));
 						
-						System.out.println("PRECIO QUESO: "+Almacen.getInstance().buscarQuesoById(aux.substring(0, aux.indexOf('|')-1)).precioTotal());
+					//	System.out.println("PRECIO QUESO: "+Almacen.getInstance().buscarQuesoById(aux.substring(0, aux.indexOf('|')-1)).precioTotal());
 						txtTotal.setText("RD$ "+calcTotal());					
 					}else {
 							JOptionPane.showMessageDialog(null, "Debe especificar su cédula para realizar el pedido.", "Información", JOptionPane.WARNING_MESSAGE);
@@ -287,7 +304,7 @@ public class CrearFactura extends JDialog {
 				lblSacar.setBounds(200, 370, 85, 14);
 				panel_1.add(lblSacar);
 				{
-					JLabel lblEigeQuesos = new JLabel("Eliga los quesos que desea comprar");
+					JLabel lblEigeQuesos = new JLabel("Elija los quesos que desea comprar");
 					lblEigeQuesos.setFont(new Font("Tahoma", Font.BOLD, 12));
 					lblEigeQuesos.setBounds(13, 180, 250, 14);
 					panel_1.add(lblEigeQuesos);
@@ -344,7 +361,16 @@ public class CrearFactura extends JDialog {
 									} catch (IOException Ioe) {
 										Ioe.printStackTrace();
 									}
-									Socket socket = null;
+									
+									try {
+										envio.writeUTF(info);
+										envio.flush();
+									} catch (IOException ioe) {
+										// TODO Auto-generated catch block
+										System.out.println("Error: "+ioe);
+									}
+									
+									/*Socket socket = null;
 									try {
 										socket = new Socket("127.0.0.1",9000);
 										DataOutputStream envio = new DataOutputStream(socket.getOutputStream());
@@ -357,19 +383,11 @@ public class CrearFactura extends JDialog {
 									} catch (IOException ioe) {
 										System.out.println("Conexión rechazada "+ioe);
 										System.exit(1);
-									}
+									}*/
 									
 									JOptionPane.showMessageDialog(null, "¡Su pedido ha sido realizado satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
 									cleanCliente();
 									listQuesosComprados.clear();
-									if(socket != null) {
-										try {
-											socket.close();
-										} catch (IOException e1) {
-											// TODO Auto-generated catch block
-											e1.printStackTrace();
-										}
-									}
 									
 								}else {
 									JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un (1) queso a comprar.", "Información", JOptionPane.WARNING_MESSAGE);
@@ -384,6 +402,14 @@ public class CrearFactura extends JDialog {
 						JButton btnCancelar = new JButton("Cancelar");
 						btnCancelar.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
+								if(socket != null) {
+									try {
+										socket.close();
+									} catch (IOException ioe) {
+										// TODO Auto-generated catch block
+										System.out.println("Error: "+ioe);
+									}
+								}
 								dispose();
 							}
 						});
